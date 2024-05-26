@@ -4,6 +4,10 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import React from 'react';
 import { useEffect } from 'react';
+import { styled } from 'nativewind';
+import { configureMotion } from '@legendapp/motion';
+
+configureMotion({ styled });
 
 export {
   // Catch any errors thrown by the Layout component.

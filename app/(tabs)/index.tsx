@@ -1,6 +1,6 @@
 import { Text } from 'react-native';
 
-import { Motion } from '@legendapp/motion';
+import { Motion } from '@legendapp/motion/styled';
 import React from 'react';
 
 export default function TabOneScreen() {
