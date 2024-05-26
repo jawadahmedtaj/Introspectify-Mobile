@@ -4,6 +4,7 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import React from 'react';
 import { useEffect } from 'react';
+import '../global.css';
 
 export {
   // Catch any errors thrown by the Layout component.
