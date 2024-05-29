@@ -5,12 +5,13 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import React from 'react';
+import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { styled } from 'nativewind';
 import { configureMotion } from '@legendapp/motion';
-import app from '../firebaseConfig';
-
+import { app, auth } from '../firebaseConfig';
+import { useAuthStore } from '../store/auth';
+import { onAuthStateChanged } from 'firebase/auth';
 configureMotion({ styled });
 
 export {
@@ -52,9 +53,32 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      setIsUserLoggedIn(user !== null);
+      console.log({ isUserLoggedIn });
+    });
+  }, []);
+
+  const isStoreUserLoggedIn = useAuthStore((state) => state.isUserLoggedIn);
+
+  useEffect(() => {
+    console.log({ isStoreUserLoggedIn });
+  }, [isStoreUserLoggedIn]);
+
   return (
-    <Stack>
-      <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-    </Stack>
+    <>
+      {isUserLoggedIn ? (
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="(tabs)" />{' '}
+        </Stack>
+      ) : (
+        <Stack>
+          <Stack.Screen name="(auth)" />{' '}
+        </Stack>
+      )}
+    </>
   );
 }

@@ -1,7 +1,6 @@
 import React from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Tabs } from 'expo-router';
-import { getAuth } from 'firebase/auth';
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIcon(props: {
@@ -12,7 +11,7 @@ function TabBarIcon(props: {
 }
 
 export default function TabLayout() {
-  return getAuth().currentUser !== null ? (
+  return (
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: '#3c3c3c',
@@ -36,7 +35,5 @@ export default function TabLayout() {
         }}
       />
     </Tabs>
-  ) : (
-    <></>
   );
 }

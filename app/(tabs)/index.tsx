@@ -1,9 +1,24 @@
-import { Text } from 'react-native';
+import { Button, Text } from 'react-native';
 
 import { Motion } from '@legendapp/motion/styled';
 import React from 'react';
+import { auth } from '@/firebaseConfig';
+import { useAuthStore } from '@/store/auth';
 
 export default function TabOneScreen() {
+  const authStoreSignOut = useAuthStore((state) => state.logout);
+
+  const logOutUser = () => {
+    auth
+      .signOut()
+      .then(() => {
+        console.log('User logged out');
+      })
+      .finally(() => {
+        authStoreSignOut();
+      });
+  };
+
   return (
     <Motion.View
       initial={{ opacity: 0, scale: 0 }}
@@ -12,6 +27,7 @@ export default function TabOneScreen() {
       className="flex-1 justify-center items-center bg-slate-100"
     >
       <Text className="font-bold text-xl">Tab One</Text>
+      <Button title="Logout" onPress={logOutUser} />
       <Motion.View
         initial={{ scaleX: 0 }}
         animate={{ scaleX: 1 }}
