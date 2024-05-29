@@ -1,3 +1,6 @@
+if (__DEV__) {
+  require('../ReactotronConfig');
+}
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
@@ -6,6 +9,7 @@ import React from 'react';
 import { useEffect } from 'react';
 import { styled } from 'nativewind';
 import { configureMotion } from '@legendapp/motion';
+import app from '../firebaseConfig';
 
 configureMotion({ styled });
 
@@ -16,7 +20,7 @@ export {
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: '(auth)',
+  initialRouteName: '(auth)/login',
 };
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -36,6 +40,7 @@ export default function RootLayout() {
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();
+      app;
     }
   }, [loaded]);
 

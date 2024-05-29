@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, GestureResponderEvent, SafeAreaView, TextInput } from 'react-native';
 import { Link } from 'expo-router';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
@@ -6,6 +6,13 @@ import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    if (getAuth().currentUser !== null) {
+      setIsLoggedIn(true);
+    }
+  }, []);
 
   const handleLogin = (e: GestureResponderEvent) => {
     console.log('login');
@@ -45,7 +52,10 @@ const Login: React.FC = () => {
         }}
       />
       <Button title="Login" onPress={(e: GestureResponderEvent) => handleLogin(e)} />
+
       <Link href="/signup">Signup</Link>
+      <Link href="/one">One</Link>
+      <Link href="/two">Two</Link>
     </SafeAreaView>
   );
 };
