@@ -1,11 +1,10 @@
 import { create } from 'zustand';
 
-export const useAuthStore = create((set) => ({
+export const useAuthStore = create((set, get) => ({
+  // State
   user: null,
-  isUserLoggedIn: false,
-  setUser: (user) => {
-    // console.log('setUser', user);
-    set({ user, isUserLoggedIn: !!user });
-  },
-  logout: () => set({ user: null, isUserLoggedIn: false }),
+  setUser: (user) => set({ user }),
+  logout: () => set({ user: null }),
+  // Getter
+  isUserLoggedIn: () => get().user !== null,
 }));

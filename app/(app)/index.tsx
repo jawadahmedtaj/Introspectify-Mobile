@@ -8,6 +8,8 @@ import { useAuthStore } from '@/store/auth';
 export default function TabOneScreen() {
   const authStoreSignOut = useAuthStore((state) => state.logout);
 
+  const isUserIn = useAuthStore((state) => state.isUserLoggedIn());
+
   const logOutUser = () => {
     auth
       .signOut()
@@ -26,7 +28,7 @@ export default function TabOneScreen() {
       transition={{ type: 'spring', stiffness: 260, damping: 20 }}
       className="flex-1 justify-center items-center bg-slate-100"
     >
-      <Text className="font-bold text-xl">Tab One</Text>
+      <Text className="font-bold text-xl">Tab One - {JSON.stringify(isUserIn)}</Text>
       <Button title="Logout" onPress={logOutUser} />
       <Motion.View
         initial={{ scaleX: 0 }}
