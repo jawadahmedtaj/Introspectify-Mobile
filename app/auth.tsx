@@ -22,6 +22,8 @@ const Auth = () => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [isRegistering, setIsRegistering] = useState(false);
+  const [repeatPassword, setRepeatPassword] = useState('');
 
   const setUser = useAuthStore((state) => state.setUser);
   useEffect(() => {
@@ -33,7 +35,6 @@ const Auth = () => {
   const login = async () => {
     try {
       setLoading(true);
-      console.log('Login', { email, password });
       await signInWithEmailAndPassword(auth, email, password);
       router.replace('/');
     } catch (error) {
@@ -46,8 +47,16 @@ const Auth = () => {
   const register = async () => {
     try {
       setLoading(true);
-      await createUserWithEmailAndPassword(auth, email, password);
-      login();
+      setIsRegistering(true);
+
+      if (isRegistering) {
+        if (password !== repeatPassword) {
+          setError('Passwords do not match');
+          return;
+        }
+        await createUserWithEmailAndPassword(auth, email, password);
+        login();
+      }
     } catch (error) {
       setError(error.message);
     } finally {
@@ -63,7 +72,12 @@ const Auth = () => {
           autoCapitalize="none"
           keyboardType="email-address"
           value={email}
-          onChangeText={setEmail}
+          onChangeText={(e) => {
+            setIsRegistering(false)
+            setError('')
+            setRepeatPassword('')
+            setEmail(e)
+          }}
           className="mb-10 border-b-2 border-slate-200 focus:border-slate-500"
         />
         <TextInput
@@ -73,12 +87,28 @@ const Auth = () => {
           value={password}
           onChangeText={setPassword}
           keyboardType="visible-password"
-          className="border-b-2 border-slate-200 focus:border-slate-500"
+          className="mb-10 border-b-2 border-slate-200 focus:border-slate-500"
         />
+        {isRegistering &&
+          <Motion.View initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ type: 'timing', duration: 500 }}>
+            <TextInput
+              placeholder="Repeat Password"
+              autoCapitalize="none"
+              secureTextEntry={true}
+              value={repeatPassword}
+              onChangeText={setRepeatPassword}
+              keyboardType="visible-password"
+              className="border-b-2 border-slate-200 focus:border-slate-500"
+            />
+          </Motion.View>}
         {error && (
           <Motion.Text
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             transition={{ type: 'timing', duration: 500 }}
             className="text-red-500 pt-4"
           >
