@@ -1,4 +1,3 @@
-import { auth } from '@/firebaseConfig';
 import { useAuthStore } from '@/store/auth';
 import { Motion } from '@legendapp/motion';
 import { router } from 'expo-router';
@@ -43,9 +42,6 @@ const Auth = () => {
   const setUser = useAuthStore((state) => state.setUser);
   useEffect(() => {
     checkAuthAndRedirect();
-    onAuthStateChanged(auth, (user) => {
-      setUser(user);
-    });
   }, []);
 
   const checkAuthAndRedirect = async () => {
@@ -84,7 +80,7 @@ const Auth = () => {
   }
 
   return (
-    <SafeAreaView className="flex bg-base-100 flex-grow justify-center items-center">
+    <SafeAreaView className="flex flex-grow justify-center items-center bg-base-100">
       <KeyboardAvoidingView className="min-w-[80%]">
         <TextInput
           placeholder="Email"
@@ -97,7 +93,7 @@ const Auth = () => {
             setRepeatPassword('');
             setEmail(e);
           }}
-          className="mb-10 border-b-2 border-slate-200 focus:border-slate-500"
+          className="border-slate-200 focus:border-slate-500 mb-10 border-b-2"
         />
         <TextInput
           placeholder="Password"
@@ -106,7 +102,7 @@ const Auth = () => {
           value={password}
           onChangeText={setPassword}
           keyboardType="visible-password"
-          className="mb-10 border-b-2 border-slate-200 focus:border-slate-500"
+          className="border-slate-200 focus:border-slate-500 mb-10 border-b-2"
         />
         {isRegistering && (
           <Motion.View
@@ -122,7 +118,7 @@ const Auth = () => {
               value={repeatPassword}
               onChangeText={setRepeatPassword}
               keyboardType="visible-password"
-              className="border-b-2 border-slate-200 focus:border-slate-500"
+              className="border-slate-200 focus:border-slate-500 border-b-2"
             />
           </Motion.View>
         )}
@@ -132,21 +128,21 @@ const Auth = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ type: 'timing', duration: 500 }}
-            className="text-red-500 pt-4"
+            className="pt-4 text-red-500"
           >
             {error}
           </Motion.Text>
         )}
         <View className="pt-4">
           <TouchableOpacity
-            className="bg-secondary flex items-center my-2 py-3 rounded-3xl"
+            className="flex items-center bg-secondary my-2 py-3 rounded-3xl"
             onPress={signInWithEmail}
             disabled={loading}
           >
             <Text className="text-white">Login</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            className="bg-secondary flex items-center my-2 py-3 rounded-3xl"
+            className="flex items-center bg-secondary my-2 py-3 rounded-3xl"
             onPress={signUpWithEmail}
             disabled={loading}
           >
@@ -205,7 +201,7 @@ const Auth = () => {
 //   };
 
 //   return (
-//     <SafeAreaView className="flex bg-base-100 flex-grow justify-center items-center">
+//     <SafeAreaView className="flex flex-grow justify-center items-center bg-base-100">
 //       <KeyboardAvoidingView className="min-w-[80%]">
 //         <TextInput
 //           placeholder="Email"
@@ -218,7 +214,7 @@ const Auth = () => {
 //             setRepeatPassword('')
 //             setEmail(e)
 //           }}
-//           className="mb-10 border-b-2 border-slate-200 focus:border-slate-500"
+//           className="border-slate-200 focus:border-slate-500 mb-10 border-b-2"
 //         />
 //         <TextInput
 //           placeholder="Password"
@@ -227,7 +223,7 @@ const Auth = () => {
 //           value={password}
 //           onChangeText={setPassword}
 //           keyboardType="visible-password"
-//           className="mb-10 border-b-2 border-slate-200 focus:border-slate-500"
+//           className="border-slate-200 focus:border-slate-500 mb-10 border-b-2"
 //         />
 //         {isRegistering &&
 //           <Motion.View initial={{ opacity: 0 }}
@@ -241,7 +237,7 @@ const Auth = () => {
 //               value={repeatPassword}
 //               onChangeText={setRepeatPassword}
 //               keyboardType="visible-password"
-//               className="border-b-2 border-slate-200 focus:border-slate-500"
+//               className="border-slate-200 focus:border-slate-500 border-b-2"
 //             />
 //           </Motion.View>}
 //         {error && (
@@ -250,20 +246,20 @@ const Auth = () => {
 //             animate={{ opacity: 1 }}
 //             exit={{ opacity: 0 }}
 //             transition={{ type: 'timing', duration: 500 }}
-//             className="text-red-500 pt-4"
+//             className="pt-4 text-red-500"
 //           >
 //             {error}
 //           </Motion.Text>
 //         )}
 //         <View className="pt-4">
 //           <TouchableOpacity
-//             className="bg-secondary flex items-center my-2 py-3 rounded-3xl"
+//             className="flex items-center bg-secondary my-2 py-3 rounded-3xl"
 //             onPress={login}
 //           >
 //             <Text className="text-white">Login</Text>
 //           </TouchableOpacity>
 //           <TouchableOpacity
-//             className="bg-secondary flex items-center my-2 py-3 rounded-3xl"
+//             className="flex items-center bg-secondary my-2 py-3 rounded-3xl"
 //             onPress={register}
 //           >
 //             <Text className="text-white">Register</Text>

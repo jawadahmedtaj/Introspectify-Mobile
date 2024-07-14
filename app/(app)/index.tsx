@@ -2,7 +2,6 @@ import { Alert, Button, Text } from 'react-native';
 
 import { Motion } from '@legendapp/motion/styled';
 import React from 'react';
-import { auth } from '@/firebaseConfig';
 import { useAuthStore } from '@/store/auth';
 import { supabase } from '@/supbaseConfig';
 import { router } from 'expo-router';
@@ -11,17 +10,6 @@ export default function TabOneScreen() {
   const authStoreSignOut = useAuthStore((state) => state.logout);
 
   const isUserIn = useAuthStore((state) => state.isUserLoggedIn());
-
-  const logOutUser = () => {
-    auth
-      .signOut()
-      .then(() => {
-        console.log('User logged out');
-      })
-      .finally(() => {
-        authStoreSignOut();
-      });
-  };
 
   const logOutSupabase = async () => {
     console.log('Logging out Supabase user...');
@@ -42,13 +30,12 @@ export default function TabOneScreen() {
       className="flex-1 justify-center items-center bg-slate-100"
     >
       <Text className="font-bold text-xl">Tab One - {JSON.stringify(isUserIn)}</Text>
-      <Button title="Logout" onPress={logOutUser} />
       <Button title="Logout Supabse" onPress={logOutSupabase} />
       <Motion.View
         initial={{ scaleX: 0 }}
         animate={{ scaleX: 1 }}
         transition={{ type: 'spring', stiffness: 200, damping: 10 }}
-        className="my-8 h-[1px] w-[80%] bg-slate-200"
+        className="bg-slate-200 my-8 w-[80%] h-[1px]"
       />
     </Motion.View>
   );

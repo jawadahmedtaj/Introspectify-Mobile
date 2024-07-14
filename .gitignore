@@ -44,4 +44,4 @@ expo-env.d.ts
 .zed/
 .vscode/
 
-.env.sample
+.env
